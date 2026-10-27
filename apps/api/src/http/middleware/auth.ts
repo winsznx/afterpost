@@ -1,6 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { resolveSession } from "../../lib/auth.js";
 import { prisma } from "../../lib/prisma.js";
+import { withWorkspaceScope } from "../../lib/workspace-scope.js";
 import { AUTH_REQUIRED, ROLE_FORBIDDEN } from "../errors.js";
 
 declare module "fastify" {
@@ -39,10 +40,17 @@ export async function requireWorkspaceRole(
   minRole: Role,
 ): Promise<void> {
   if (!request.user) throw AUTH_REQUIRED();
+  const userId = request.user.id;
 
-  const membership = await prisma.workspaceMember.findUnique({
-    where: { workspaceId_userId: { workspaceId, userId: request.user.id } },
-  });
+  // workspace_members carries Row-Level Security (RLS requires the
+  // session variable set first — see workspace-scope.ts). This read
+  // happens inside a workspace_id-scoped transaction for exactly that
+  // reason, not merely as a style choice.
+  const membership = await withWorkspaceScope(workspaceId, (tx) =>
+    tx.workspaceMember.findUnique({
+      where: { workspaceId_userId: { workspaceId, userId } },
+    }),
+  );
   if (!membership || membership.status !== "ACTIVE") {
     throw ROLE_FORBIDDEN("Not a member of this workspace");
   }

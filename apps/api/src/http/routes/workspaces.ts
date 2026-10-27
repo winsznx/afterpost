@@ -2,6 +2,7 @@ import { CreateWorkspaceRequestSchema, type WorkspaceDto } from "@afterpost/cont
 import type { FastifyInstance } from "fastify";
 import { requireAuth, requireWorkspaceRole } from "../middleware/auth.js";
 import { prisma } from "../../lib/prisma.js";
+import { withWorkspaceScope } from "../../lib/workspace-scope.js";
 import { ApiError, NOT_FOUND, VALIDATION_FAILED } from "../errors.js";
 
 function toDto(workspace: {
@@ -40,6 +41,10 @@ export async function workspaceRoutes(app: FastifyInstance): Promise<void> {
       );
     }
 
+    // `workspaces` itself carries no RLS (it's the tenant boundary, not a
+    // tenant-owned record); `workspace_members` does, so app.workspace_id
+    // must be set (via set_config, LOCAL scope) before that insert — both
+    // in the same transaction so workspace+membership stay atomic.
     const workspace = await prisma.$transaction(async (tx) => {
       const ws = await tx.workspace.create({
         data: {
@@ -48,6 +53,7 @@ export async function workspaceRoutes(app: FastifyInstance): Promise<void> {
           ownerId,
         },
       });
+      await tx.$executeRaw`SELECT set_config('app.workspace_id', ${ws.id}, true)`;
       await tx.workspaceMember.create({
         data: { workspaceId: ws.id, userId: ownerId, role: "OWNER" },
       });

@@ -4,9 +4,15 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// DATABASE_URL: the restricted, non-superuser app role (afterpost_app) that
+// Row-Level Security actually applies to — Postgres superusers bypass RLS
+// unconditionally regardless of policies, so the app must never connect as
+// one. DIRECT_DATABASE_URL: the superuser role, used only by `prisma migrate`
+// to run DDL (CREATE ROLE, ENABLE ROW LEVEL SECURITY, GRANT, CREATE POLICY).
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_DATABASE_URL")
 }
 
 // ---------------------------------------------------------------------------
