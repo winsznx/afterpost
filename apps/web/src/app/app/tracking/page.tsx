@@ -29,6 +29,7 @@ export default function Tracking() {
         ].map(([l, v]) => (
           <div key={l} className="card" style={{ borderTop: "2px solid var(--attribution)" }}>
             <p className="sub">{l}</p>
+            <p className="display" style={{ fontSize: 36, marginTop: 6 }}>{v}</p>
             <p className="display" style={{ fontSize: 48, marginTop: 6 }}>
               {v}
             </p>

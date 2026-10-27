@@ -13,7 +13,7 @@ export default function Loading() {
           </div>
         ))}
       </div>
-      <div className="skel" style={{ height: 260, marginTop: 24, borderRadius: 14 }} />
+      <div className="skel" style={{ height: 260, marginTop: 24, borderRadius: 8 }} />
     </div>
   );
 }

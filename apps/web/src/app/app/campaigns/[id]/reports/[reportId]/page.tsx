@@ -81,6 +81,8 @@ export default async function Report({
 
       <section className="card" data-reveal style={{ marginBottom: 24 }}>
         <span className="eyebrow">Suggested action</span>
+        <p className="display" style={{ fontSize: "clamp(32px,4.4vw,52px)", margin: "12px 0 6px" }}>{act.label}</p>
+        <p className="lead" style={{ fontSize: 16 }}>{act.why} This is a suggestion drawn from the evidence below, never a single blended score.</p>
         <p className="display" style={{ fontSize: "clamp(40px,6vw,72px)", margin: "14px 0 6px" }}>
           {act.label}
         </p>

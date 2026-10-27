@@ -285,7 +285,7 @@ export function UseCases() {
           <div className="lane-name" style={{ color: `var(--${r.stat[2]})` }}>
             <i className="dot" /> {r.stat[2]}
           </div>
-          <div className="display" style={{ fontSize: 88, margin: "18px 0 4px" }}>
+          <div className="display" style={{ fontSize: 64, margin: "14px 0 4px" }}>
             {r.stat[0]}
           </div>
           <p className="lead" style={{ fontSize: 15 }}>

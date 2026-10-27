@@ -87,6 +87,9 @@ function Frame() {
       <div className="frame-body">
         <div>
           <span className="eyebrow">Campaign</span>
+          <p style={{ marginTop: 12, fontFamily: "var(--font-display)", fontWeight: 600, fontSize: 20, lineHeight: 1.1 }}>Launch week amplification</p>
+          <p className="lane-sub" style={{ marginTop: 10 }}>Northwind Signals · 6–20 Oct</p>
+          <span className="pill info" style={{ marginTop: 16 }}>Recorded run</span>
           <p
             style={{
               marginTop: 12,

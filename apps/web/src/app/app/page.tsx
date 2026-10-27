@@ -60,6 +60,7 @@ export default function Overview() {
         ].map(([l, v, s]) => (
           <div key={l} className="card">
             <p className="sub">{l}</p>
+            <p className="display" style={{ fontSize: 34, margin: "8px 0 2px" }}>{v}</p>
             <p className="display" style={{ fontSize: 46, margin: "8px 0 2px" }}>
               {v}
             </p>

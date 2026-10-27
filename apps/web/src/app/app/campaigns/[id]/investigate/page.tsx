@@ -230,6 +230,8 @@ export default function Investigate({ params }: { params: Promise<{ id: string }
                 <h2>Decision</h2>
                 {finished ? (
                   <div data-new style={{ display: "grid", gap: 12, marginTop: 8 }}>
+                    <p className="display" style={{ fontSize: 28, lineHeight: 1.1 }}>{c.suggestedAction === "conditional_trial" ? "Conditional trial" : "See report"}</p>
+                    <p className="sub">Generated with the no-model fallback, so this wording is labelled <span className="mono">isFallback: true</span>.</p>
                     <p className="display" style={{ fontSize: 38, lineHeight: 1 }}>
                       {c.suggestedAction === "conditional_trial"
                         ? "Conditional trial"
